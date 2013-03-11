@@ -31,3 +31,5 @@ Or, if you're British (such as myself), you can use this,
 <pre>
 .setNameColour(ChatColor.COLOUR);
 </pre>
+
+<a href="http://dev.bukkit.org/server-mods/nametagapi/">Main Post</a> You can donate there :)

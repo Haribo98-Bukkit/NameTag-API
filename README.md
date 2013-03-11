@@ -16,20 +16,18 @@ PlayerTag tag = new PlayerTag(player);
 tag.setNameTag(ChatColor.COLOR + player.getName());
 </pre>
 
-Along with,
+Along with the method shown above,
 <pre>
 .setNameTag(ChatColor.COLOR + player.getName());
 </pre>
 
-there is also,
+There is also a color set method,
 <pre>
 .setNameColor(ChatColor.COLOR);
 </pre>
 
-or
+Or, if you're British (such as myself), you can use this,
 
 <pre>
 .setNameColour(ChatColor.COLOUR);
 </pre>
-
-if prefered!

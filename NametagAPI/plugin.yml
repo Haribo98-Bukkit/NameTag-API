@@ -1,0 +1,8 @@
+name: NameTagAPI
+main: com.haribo98.nametag.Main
+version: 1.0.1
+author: Haribo98
+commands:
+  nametag:
+    description: Sets a Players NameTag
+    permission: nametag.use

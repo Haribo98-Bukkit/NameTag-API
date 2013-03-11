@@ -1,7 +1,7 @@
-NameTag-API
+Name Tag API
 ===========
 
-How to use NameTag API.
+How to use Name Tag API.
 
 <h3>Using the Event</h3>
 <pre>

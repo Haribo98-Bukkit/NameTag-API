@@ -11,9 +11,28 @@ import org.bukkit.entity.Player;
 public class PlayerTag {
 	
 	public Player player;
+	public Main plugin;
 	
 	public PlayerTag(Player player) {
 		this.player = player;
+	}
+	
+	public PlayerTag(Player player, Main plugin) {
+		this.player = player;
+		this.plugin = plugin;
+	}
+	
+	public String getNameTag() {
+		String nametag = null;
+		
+		if (plugin != null) {
+			
+			nametag = plugin.getConfig().getString("users." +player.getName() + ".tag");
+			nametag = nametag.replaceAll("&", "¤");
+			
+		}
+		
+		return nametag;
 	}
 	
 	public void setNameTag(String nametag) {
@@ -34,6 +53,11 @@ public class PlayerTag {
 		}
 		
 		eP.name = orig;
+		
+		if (plugin != null) {
+			nametag = nametag.replaceAll("¤", "&");
+			plugin.getConfig().set("users." + player.getName() + ".tag", nametag);
+		}
 	}
 	
 	public void setNameColour(ChatColor colour) {

@@ -1,71 +1,84 @@
 package com.haribo98.nametag;
 
-import net.minecraft.server.v1_4_R1.EntityPlayer;
-import net.minecraft.server.v1_4_R1.Packet20NamedEntitySpawn;
-
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
-import org.bukkit.craftbukkit.v1_4_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
+
+import com.haribo98.nametag.versions.V1_4.PlayerTag_V1_4;
+import com.haribo98.nametag.versions.V1_5.PlayerTag_V1_5;
 
 public class PlayerTag {
 	
 	public Player player;
 	public Main plugin;
+	public String version;
 	
 	public PlayerTag(Player player) {
 		this.player = player;
+		this.version = Bukkit.getBukkitVersion();
+		this.version = version.substring(0, 6);
+		this.version = version.replaceAll("-", "");
 	}
 	
 	public PlayerTag(Player player, Main plugin) {
 		this.player = player;
 		this.plugin = plugin;
+		this.version = Bukkit.getBukkitVersion();
+		this.version = version.substring(0, 6);
+		this.version = version.replaceAll("-", "");
 	}
 	
 	public String getNameTag() {
-		String nametag = null;
-		
-		if (plugin != null) {
-			
-			nametag = plugin.getConfig().getString("users." +player.getName() + ".tag");
-			nametag = nametag.replaceAll("&", "¤");
-			
+		if (version.startsWith("1.5")) {
+			PlayerTag_V1_5 tag = new PlayerTag_V1_5(player);
+			return tag.getNameTag();
+		} else if (version.startsWith("1.4")) {
+			PlayerTag_V1_4 tag = new PlayerTag_V1_4(player);
+			return tag.getNameTag();
+		} else {
+			return null;
 		}
-		
-		return nametag;
 	}
 	
 	public void setNameTag(String nametag) {
-		if (nametag.length() >= 15) {
-			nametag = nametag.substring(0, 13);
+		if (version.startsWith("1.5")) {
+			PlayerTag_V1_5 tag = new PlayerTag_V1_5(player);
+			tag.setNameTag(nametag);
+		} else if (version.startsWith("1.4")) {
+			PlayerTag_V1_4 tag = new PlayerTag_V1_4(player);
+			tag.setNameTag(nametag);
 		}
-		
-		String orig = player.getName();
-		CraftPlayer cP = (CraftPlayer)player;
-		EntityPlayer eP = cP.getHandle();
-		eP.name = nametag;
-		
-		for (Player online : Bukkit.getOnlinePlayers()) {
-			if (online != player) {
-				CraftPlayer cO = (CraftPlayer)online;
-				cO.getHandle().playerConnection.sendPacket(new Packet20NamedEntitySpawn(eP));
-			}
+	}
+	
+	public void setNameTag(String nametag, Player changedfor) {
+		if (version.startsWith("1.5")) {
+			PlayerTag_V1_5 tag = new PlayerTag_V1_5(player);
+			tag.setNameTag(nametag, changedfor);
+		} else if (version.startsWith("1.4")) {
+			PlayerTag_V1_4 tag = new PlayerTag_V1_4(player);
+			tag.setNameTag(nametag, changedfor);
 		}
-		
-		eP.name = orig;
-		
-		if (plugin != null) {
-			nametag = nametag.replaceAll("¤", "&");
-			plugin.getConfig().set("users." + player.getName() + ".tag", nametag);
-		}
+	}
+	
+	public void setNameColour(ChatColor colour, Player changedfor) {
+		setNameTag(colour + player.getName(), changedfor);
 	}
 	
 	public void setNameColour(ChatColor colour) {
-		setNameTag(colour + player.getName());
+		
+		Player[] players = plugin.getServer().getOnlinePlayers();
+		for (Player receiver : players) {
+			setNameColour(colour, receiver);
+		}
+		
+	}
+	
+	public void setNameColor(ChatColor color, Player changedfor) {
+		setNameColour(color, changedfor);
 	}
 	
 	public void setNameColor(ChatColor color) {
-		setNameTag(color + player.getName());
+		setNameColour(color);
 	}
 	
 }

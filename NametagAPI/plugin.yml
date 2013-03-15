@@ -1,6 +1,6 @@
 name: NameTagAPI
 main: com.haribo98.nametag.Main
-version: 1.1.0
+version: 1.2.2
 author: Haribo98
 commands:
   nametag:

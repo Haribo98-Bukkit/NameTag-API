@@ -9,10 +9,11 @@ public class Main extends JavaPlugin {
 	public void onEnable() {
 		new Events(this);
 		getCommand("nametag").setExecutor(new NameTagCommand(this));
+		reloadConfig();
 	}
 	
 	public void onDisable() {
-		
+		saveConfig();
 	}
 	
 	public boolean isNameColour(String code) {
@@ -91,8 +92,8 @@ public class Main extends JavaPlugin {
 		}
 	}
 	
-	public void callEvent(Player player) {
-		NameTagReceiveEvent receive = new NameTagReceiveEvent(player);
+	public void callEvent(Player player, Player changed) {
+		NameTagReceiveEvent receive = new NameTagReceiveEvent(player, changed);
 		getServer().getPluginManager().callEvent(receive);
 	}
 	
